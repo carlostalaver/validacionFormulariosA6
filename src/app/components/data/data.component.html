@@ -1,0 +1,79 @@
+<h4>Formularios <small>data</small></h4>
+<hr>
+<form [formGroup]="form" (ngSubmit)="guardar()" novalidate="novalidate">
+
+  <div formGroupName="nombreCompleto">
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col-8" [ngClass]="{'has-danger': (!form.controls['nombreCompleto'].controls['nombre'].valid || form.get('nombreCompleto.nombre').errors?.minlength)}">
+        <input class="form-control" minlength="5" required type="text" formControlName="nombre" placeholder="Nombre">
+        <!--Forma de llamar llanando propiedad por propiedad-->
+        <div *ngIf="form.controls['nombreCompleto'].controls['nombre'].errors?.valid" class="form-control-feedback">
+          Campo requerido
+        </div>
+        <!--Forma de llamar a una propiedad usando get-->
+        <div *ngIf="form.get('nombreCompleto.nombre').errors?.minlength" class="form-control-feedback">
+          Por lo menos 5 caracteres
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellido</label>
+      <div class="col-8">
+        <input class="form-control" type="text" formControlName="apellido" placeholder="Apellido">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col-md-8">
+      <input class="form-control" type="email" formControlName="correo" placeholder="Correo electrónico">
+    </div>
+  </div>
+
+
+   <div class="form-group row">
+    <label class="col-2 col-form-label">Pasa tiempo:</label>
+    <div class="col-8" formArrayName="pasaTiempo">
+      <input *ngFor="let pasaT of form.controls['pasaTiempo'].controls; let i = index" [formControlName]="i" type="text"
+        class="form-control">
+    </div>
+    <button type="button" (click)="agregarPasaTiempo()" class="btn btn-primary"> Nuevo</button>
+  </div>
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Usuario</label>
+    <div class="col-md-8">
+      <input class="form-control" type="text" formControlName="userName" placeholder="Usuario">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Password</label>
+    <div class="col-md-8">
+      <input class="form-control" type="password" formControlName="password1" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Repetir </label>
+    <div class="col-md-8">
+      <input class="form-control" type="password" formControlName="password2" placeholder="Repetir">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" class="btn btn-outline-primary">
+        Guardar
+      </button>
+    </div>
+  </div>
+</form>
+<pre>
+
+  {{form.valid }}
+  <br>
+  {{form.status }}
+</pre>
