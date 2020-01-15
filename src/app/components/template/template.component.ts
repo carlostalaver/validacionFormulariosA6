@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { interval, Subject } from 'rxjs';
-import {take, multicast, refCount, publish, share, publishBehavior, publishLast, publishReplay } from 'rxjs/operators';
+import { interval, Subject, ConnectableObservable } from 'rxjs';
+import { take, multicast, refCount, publish, share, publishBehavior, publishLast, publishReplay } from 'rxjs/operators';
 
 
 export interface ISuario {
@@ -16,7 +16,7 @@ export interface ISuario {
 }
 
 //#region Usando un subject para crear multicast
-/* const sourse$ = interval(1000).pipe(
+/*  const sourse$ = interval(1000).pipe(
   take(4) // para que la fuente solo produzca 4 valores
 );
 
@@ -44,11 +44,11 @@ setTimeout(() => {
 //#region Usando el operador multicast(), refCount(), publish() para convertir un observable frio en uno caliente
 /* const sourse$ = interval(1000).pipe(
   take(4),
-  // multicast(new Subject()),
-  // publish(),
-  // publish() -> no necesita un objeto Subject()
-  // refCount()
-  share()
+  // multicast(new Subject()), bloque 1
+  // refCount()                bloque 1
+  // publish(), // Bloque-2 -> no necesita un objeto Subject(), si uso este operador NO SE USA el operador  multicast(new Subject())
+  // refCount() // Bloque-2
+   share()   // bloque 3 si este operador no es necesario usar ni el multicast con  refCount o piblish con refCount
 );
 
 // const subject$ = new Subject();
@@ -76,18 +76,22 @@ setTimeout(() => {
     null,
     () => console.log(`%cObservador-D completado`, 'color:green')
   );
-}, 6000); */
+}, 6000);
+*/
+/* esto es si el observable SOLO se trabaja con el operador multicast(new Subject()) o el operador publish(),
+   el cual retornará un observable especial  de tipo ConnectableObservable<number> entonces para desencadenar
+   la ejecucion de la fuente observable SE DEBE LLAMAR al metodo conectable()*/
+// (sourse$ as ConnectableObservable<number>).connect();
 
-// sourse$.connect();
 //#endregion
 
 //#region Usando el operador publishLast(), publishBihavior(), publishReplay() para convertir un observable frio en uno caliente
-const sourse2$ = interval(1000).pipe(
+ const sourse2$ = interval(1000).pipe(
   take(4),
-  //publishLast(),
-  //publishReplay(),
-  publishBehavior(21),
-  refCount()
+  // publishLast(),
+  // publishReplay(),
+   publishBehavior(21),
+   refCount()
 );
 
 // const subject$ = new Subject();
@@ -101,13 +105,13 @@ setTimeout(() => {
   sourse2$.subscribe(
     value => console.log(`%c Observador-B ${value}`, 'color:orange')
   );
-}, 1000);
+}, 2000);
 
 setTimeout(() => {
   sourse2$.subscribe(
     value => console.log(`%c Observador-C ${value}`, 'color:blue')
   );
-}, 2000);
+}, 3000);
 
 setTimeout(() => {
   sourse2$.subscribe(
@@ -115,9 +119,9 @@ setTimeout(() => {
     null,
     () => console.log(`%cObservador-D completado`, 'color:green')
   );
-}, 6000);
+}, 8000);
 
-// sourse$.connect();
+// (sourse2$ as ConnectableObservable<number>).connect();
 //#endregion
 @Component({
   selector: 'app-template',
@@ -141,7 +145,7 @@ export class TemplateComponent implements OnInit {
     { codigo: 'VEN', nombre: 'Venezuela' }
   ];
 
-  sexos: string [] = ['Hombre', 'Mujer'];
+  sexos: string[] = ['Hombre', 'Mujer'];
 
 
   constructor() { }
@@ -149,7 +153,7 @@ export class TemplateComponent implements OnInit {
   ngOnInit() {
   }
 
-  guardar(form: NgForm ) {
+  guardar(form: NgForm) {
     console.log('enviando submit ');
     console.log('form: ', form.control);
   }
