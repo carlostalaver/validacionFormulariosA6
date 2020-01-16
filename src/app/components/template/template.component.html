@@ -3,39 +3,48 @@
 <form novalidate="" #form="ngForm" (ngSubmit)="guardar(form)">
 
   <div>
-    <div class="form-group row" [ngClass]="{'has-danger': (nombre.errors?.required || nombre.errors?.minlength) && nombre.touched}">
+    <div class="form-group row"
+      [ngClass]="{'has-danger': (nombre.errors?.required || nombre.errors?.minlength) && nombre.touched}">
+
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
+
         <input class="form-control" type="text" [(ngModel)]="usuario.nombre" name="nombre" required minlength="5"
           #nombre="ngModel" placeholder="Nombre">
         <div class="form-control-feedback" *ngIf="nombre.errors?.required">
           Campo requerido
         </div>
-        <div class="form-control-feedback" *ngIf="nombre.errors?.minlength">
+        <div class="form-control-feedback" *ngIf="form.controls.nombre?.errors?.minlength">
           Por lo menos {{nombre.errors?.minlength.requiredLength}} caracteres
         </div>
+        
       </div>
     </div>
 
     <div class="form-group row" [ngClass]="{'has-danger': (ape.errors?.required) && ape.touched}">
+
       <label class="col-2 col-form-label">Apellido</label>
+      
       <div class="col-8">
 
-        <input class="form-control" type="text" [(ngModel)]="usuario.apellido" name="apellido" required #ape="ngModel"
-          placeholder="Apellido">
-        <div *ngIf="ape.errors?.required">Campo requerido</div>
+        <input class="form-control" type="text" [(ngModel)]="usuario.apellido" name="apellido" required #ape="ngModel" placeholder="Apellido">        
+        <div *ngIf="ape.errors?.required">
+          Campo requerido
+        </div>
+
       </div>
     </div>
 
   </div>
 
-  <div class="form-group row"  [ngClass]="{'has-danger': (correo.errors?.required) && (correo.errors?.pattern) && correo.touched}">
+  <div class="form-group row"
+    [ngClass]="{'has-danger': (correo.errors?.required) && (correo.errors?.pattern) && correo.touched}">
     <label class="col-2 col-form-label">Correo</label>
     <div class="col-md-8">
 
       <input class="form-control" type="email" [(ngModel)]="usuario.correo" name="correo" required #correo="ngModel"
         pattern="[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$" placeholder="Correo electrónico">
-        {{correo}}
+      {{usuario.correo}}
       <div *ngIf="correo.errors?.pattern">
         Correo invalido
       </div>
@@ -48,10 +57,14 @@
   <div class="form-group row">
     <label class="col-2 col-form-label">Pais</label>
     <div class="col-md-8">
-      <select [(ngModel)]="usuario.pais" class="form-control" name="pais" id="pais" #pais="ngModel">
+      
+      <select [(ngModel)]="usuario.pais" (ngModelChange)="dataChanged($event)" class="form-control" name="pais" id="pais" #pais="ngModel">
         <option value="">Seleccione</option>
-        <option *ngFor="let pais of paises" [value]="pais.codigo">{{pais.nombre}}</option>
+        <option *ngFor="let pais of paises" [ngValue]="pais">
+          {{pais.nombre}}
+        </option>
       </select>
+      
     </div>
   </div>
 
@@ -59,9 +72,9 @@
     <label class="col-2 col-form-label">Sexo</label>
     <div class="col-md-8">
       <label *ngFor="let se of sexos" class="custom-control custom-radio">
-        <input [value]="se" name="sexo" [(ngModel)]="usuario.sexo" type="radio" class="custom-control-input">
+        <input [(ngModel)]="usuario.sexo" [value]="se" name="sexo"  type="radio" class="custom-control-input">
         <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">{{se}}</span>
+        <span class="custom-control-description"> {{ se }} </span>
       </label>
       <!--<label class="custom-control custom-radio">
               <input  name="sexo" value="Mujer" [(ngModel)]="usuario.sexo" type="radio" class="custom-control-input">

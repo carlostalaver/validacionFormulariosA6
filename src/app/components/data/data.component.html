@@ -5,9 +5,10 @@
   <div formGroupName="nombreCompleto">
     <div class="form-group row">
       <label class="col-2 col-form-label">Nombre</label>
-      <div class="col-8" [ngClass]="{'has-danger': (!form.controls['nombreCompleto'].controls['nombre'].valid || form.get('nombreCompleto.nombre').errors?.minlength)}">
+      <div class="col-8" 
+        [ngClass]="{'has-danger': (!form.controls['nombreCompleto'].controls['nombre'].valid || form.get('nombreCompleto.nombre').errors?.minlength)}">
         <input class="form-control" minlength="5" required type="text" formControlName="nombre" placeholder="Nombre">
-        <!--Forma de llamar llanando propiedad por propiedad-->
+        <!--Forma de invocar llanando propiedad por propiedad-->
         <div *ngIf="form.controls['nombreCompleto'].controls['nombre'].errors?.valid" class="form-control-feedback">
           Campo requerido
         </div>
@@ -35,12 +36,17 @@
 
 
    <div class="form-group row">
-    <label class="col-2 col-form-label">Pasa tiempo:</label>
-    <div class="col-8" formArrayName="pasaTiempo">
-      <input *ngFor="let pasaT of form.controls['pasaTiempo'].controls; let i = index" [formControlName]="i" type="text"
-        class="form-control">
+    <label class="col-md-2 col-form-label">Pasa tiempo:</label>
+    <div class="col-md-8" formArrayName="pasaTiempo">
+
+      <div *ngFor="let pasaT of form.controls['pasaTiempo'].controls; let i = index">
+        <input [formControlName]="i" type="text"  class="form-control">
+      </div>
     </div>
-    <button type="button" (click)="agregarPasaTiempo()" class="btn btn-primary"> Nuevo</button>
+    <div class="col-md-2 ">
+
+      <button type="button" (click)="agregarPasaTiempo()" class="btn btn-primary"> Nuevo </button>
+    </div>
   </div>
 
 
@@ -50,6 +56,7 @@
       <input class="form-control" type="text" formControlName="userName" placeholder="Usuario">
     </div>
   </div>
+  
   <div class="form-group row">
     <label class="col-2 col-form-label">Password</label>
     <div class="col-md-8">
@@ -62,11 +69,18 @@
       <input class="form-control" type="password" formControlName="password2" placeholder="Repetir">
     </div>
   </div>
+
+
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
-    <div class="input-group col-md-8">
+    <div class="input-group col-md-5">
       <button type="submit" class="btn btn-outline-primary">
         Guardar
+      </button>
+    </div>
+    <div class="input-group col-md-5">
+      <button type="button" class="btn btn-outline-primary" (click)="form.valid ? login() : null">
+        Sign In
       </button>
     </div>
   </div>

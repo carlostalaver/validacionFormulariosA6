@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { interval, Subject, ConnectableObservable } from 'rxjs';
-import { take, multicast, refCount, publish, share, publishBehavior, publishLast, publishReplay } from 'rxjs/operators';
+import { interval, Subject, ConnectableObservable, of, timer, from } from 'rxjs';
+import { take, multicast, refCount, publish, share, publishBehavior, publishLast, publishReplay, mergeMap, map, tap } from 'rxjs/operators';
 
 
 export interface ISuario {
@@ -120,13 +120,30 @@ setTimeout(() => {
     () => console.log(`%cObservador-D completado`, 'color:green')
   );
 }, 8000);
-
+ 
 // (sourse2$ as ConnectableObservable<number>).connect();
 //#endregion
+
+const obs1 = interval(1000);
+const obs2 = timer(5000);
+
+/* obs1
+  .pipe(
+    tap( value => {
+      console.log('%clabel', 'background-color: aqua;', value);
+    }),
+    mergeMap(
+      (vMap1) => obs2.pipe(map(w => 'Hilo terminado -> ' + vMap1 + ' obs-2 ' + w)),
+    )
+  ).subscribe(r => console.log(r)); */
+
+
 @Component({
   selector: 'app-template',
   templateUrl: './template.component.html',
-  styles: []
+  styles: [`.ng-invalid.ng-touched:not(form) {
+    border: 1px solid red;
+  }`]
 })
 export class TemplateComponent implements OnInit {
 
@@ -156,6 +173,11 @@ export class TemplateComponent implements OnInit {
   guardar(form: NgForm) {
     console.log('enviando submit ');
     console.log('form: ', form.control);
+  }
+
+
+  dataChanged(value) {
+    console.log('%cngModelChange', 'background-color: orange;', value);
   }
 
 
