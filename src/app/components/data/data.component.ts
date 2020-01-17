@@ -49,7 +49,7 @@ export class DataComponent implements OnInit {
       Validators.pattern('[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$')]),
       'pasaTiempo': new FormArray(
         [new FormControl('Correr', Validators.required)]
-       ),
+      ),
       'userName': new FormControl('', [Validators.required], [this.existeUsuario]),
       'password1': new FormControl('', [Validators.required]),
       'password2': new FormControl()
@@ -122,7 +122,7 @@ export class DataComponent implements OnInit {
   noIgual(control: FormControl): { [s: string]: boolean } | null {
 
     const fr: any = this;
-    console.log('%cthis', 'background-color: pink;', this );
+    console.log('%cthis', 'background-color: pink;', this);
     if (control.value !== fr.controls['password1'].value) {
       return {
         noHerr: true
@@ -136,7 +136,7 @@ export class DataComponent implements OnInit {
     return (control: AbstractControl): { [s: string]: boolean } | null => {
       console.log('%cLlamada a la fabrica ', 'background-color: aqua;', control.parent);
 
-       if (control.parent.controls['password1'].value !== control.parent.controls['password2'].value ) {
+      if (control.parent.controls['password1'].value !== control.parent.controls['password2'].value) {
         return {
           noIguales: true
         };
@@ -146,6 +146,7 @@ export class DataComponent implements OnInit {
   }
 
   existeUsuario(control: FormControl): Promise<any> | Observable<any> {
+
     const promesa = new Promise((resolve, reject) => {
       setTimeout(() => {
         if (control.value === 'strider') {

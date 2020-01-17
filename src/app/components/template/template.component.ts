@@ -86,7 +86,7 @@ setTimeout(() => {
 //#endregion
 
 //#region Usando el operador publishLast(), publishBihavior(), publishReplay() para convertir un observable frio en uno caliente
- const sourse2$ = interval(1000).pipe(
+ /* const sourse2$ = interval(1000).pipe(
   take(4),
   // publishLast(),
   // publishReplay(),
@@ -120,7 +120,7 @@ setTimeout(() => {
     () => console.log(`%cObservador-D completado`, 'color:green')
   );
 }, 8000);
- 
+  */
 // (sourse2$ as ConnectableObservable<number>).connect();
 //#endregion
 
