@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 import { interval, Subject, ConnectableObservable, of, timer, from } from 'rxjs';
 import { take, multicast, refCount, publish, share, publishBehavior, publishLast, publishReplay, mergeMap, map, tap } from 'rxjs/operators';
 
@@ -12,6 +12,7 @@ export interface ISuario {
   pais: string;
   sexo: string;
   acepta: boolean;
+  moreOptions?: boolean;
 
 }
 
@@ -153,7 +154,8 @@ export class TemplateComponent implements OnInit {
     correo: null,
     pais: '',
     sexo: 'Hombre',
-    acepta: false
+    acepta: false,
+    moreOptions?: null
   };
 
   paises = [
@@ -170,9 +172,9 @@ export class TemplateComponent implements OnInit {
   ngOnInit() {
   }
 
-  guardar(form: NgForm) {
-    console.log('enviando submit ');
-    console.log('form: ', form.controls['nombre']);
+  guardar(form: NgForm, moreOption: NgModel) {
+    console.log('form: ', form);
+    console.log('moreOption ', moreOption);
   }
 
 

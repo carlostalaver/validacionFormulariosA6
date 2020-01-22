@@ -1,6 +1,6 @@
 <h4>Formularios <small>template</small></h4>
 <hr>
-<form novalidate="" #form="ngForm" (ngSubmit)="guardar(form)">
+<form novalidate="" #form="ngForm" (ngSubmit)="guardar(form, moreOption)">
 
   <div>
     <div class="form-group row"
@@ -10,7 +10,7 @@
       <div class="col-8">
 
         <input class="form-control" type="text" [(ngModel)]="usuario.nombre" name="nombre" required minlength="5"
-          #nombre="ngModel" placeholder="Nombre"  >
+          #nombre="ngModel" placeholder="Nombre">
 
         <div class="form-control-feedback" *ngIf="nombre.errors?.required">
           Campo requerido
@@ -18,17 +18,18 @@
         <div class="form-control-feedback" *ngIf="form.controls.nombre?.errors?.minlength">
           Por lo menos {{nombre.errors?.minlength.requiredLength}} caracteres
         </div>
-        
+
       </div>
     </div>
 
     <div class="form-group row" [ngClass]="{'has-danger': (ape.errors?.required) && ape.touched}">
 
       <label class="col-2 col-form-label">Apellido</label>
-      
+
       <div class="col-8">
 
-        <input class="form-control" type="text" [(ngModel)]="usuario.apellido" name="apellido" required #ape="ngModel" placeholder="Apellido">        
+        <input class="form-control" type="text" [(ngModel)]="usuario.apellido" name="apellido" required #ape="ngModel"
+          placeholder="Apellido">
         <div *ngIf="ape.errors?.required">
           Campo requerido
         </div>
@@ -58,14 +59,15 @@
   <div class="form-group row">
     <label class="col-2 col-form-label">Pais</label>
     <div class="col-md-8">
-      
-      <select [(ngModel)]="usuario.pais" (ngModelChange)="dataChanged($event)" class="form-control" name="pais" id="pais" #pais="ngModel">
+
+      <select [(ngModel)]="usuario.pais" (ngModelChange)="dataChanged($event)" class="form-control" name="pais"
+        id="pais" #pais="ngModel">
         <option value="">Seleccione</option>
         <option *ngFor="let pais of paises" [ngValue]="pais">
           {{pais.nombre}}
         </option>
       </select>
-      
+
     </div>
   </div>
 
@@ -73,7 +75,7 @@
     <label class="col-2 col-form-label">Sexo</label>
     <div class="col-md-8">
       <label *ngFor="let se of sexos" class="custom-control custom-radio">
-        <input [(ngModel)]="usuario.sexo" [value]="se" name="sexo"  type="radio" class="custom-control-input">
+        <input [(ngModel)]="usuario.sexo" [value]="se" name="sexo" type="radio" class="custom-control-input">
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description"> {{ se }} </span>
       </label>
@@ -93,6 +95,15 @@
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description">Terminos y condiciones</span>
       </label>
+    </div>
+  </div>
+ 
+
+  <!-- OJO notar que este ngModel NO FORMA parte del fromGrup principal, es totalmente independiente -->
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Show more options?</label>
+    <div class="col-md-8">
+      <input type="checkbox" [(ngModel)] ="usuario.moreOption" [ngModelOptions]="{standalone: true, name:'moreOption'}" #moreOption="ngModel" >
     </div>
   </div>
 
