@@ -10,7 +10,8 @@
       <div class="col-8">
 
         <input class="form-control" type="text" [(ngModel)]="usuario.nombre" name="nombre" required minlength="5"
-          #nombre="ngModel" placeholder="Nombre">
+          #nombre="ngModel" placeholder="Nombre"  >
+
         <div class="form-control-feedback" *ngIf="nombre.errors?.required">
           Campo requerido
         </div>

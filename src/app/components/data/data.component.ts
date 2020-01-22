@@ -81,7 +81,8 @@ export class DataComponent implements OnInit {
         console.log(data);
       });
 
-    this.form.controls['userName'].statusChanges
+    this.form.controls['userName']
+      .statusChanges
       .subscribe(data => {
         console.log(data);
       });

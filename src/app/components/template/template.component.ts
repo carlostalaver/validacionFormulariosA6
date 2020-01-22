@@ -172,7 +172,7 @@ export class TemplateComponent implements OnInit {
 
   guardar(form: NgForm) {
     console.log('enviando submit ');
-    console.log('form: ', form.control);
+    console.log('form: ', form.controls['nombre']);
   }
 
 
